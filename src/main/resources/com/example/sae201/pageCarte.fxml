@@ -5,18 +5,22 @@
 <?import javafx.scene.layout.*?>
 <?import com.gluonhq.maps.*?>
 
-<VBox alignment="CENTER" prefHeight="198.0" prefWidth="359.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.sae201.HelloController">
-    <HBox>
-        <BorderPane>
-            <top>
-                <HBox>
+<?import org.controlsfx.control.SearchableComboBox?>
+<VBox id="root" alignment="CENTER" prefHeight="600" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.sae201.HelloController">
+    <HBox spacing="10" stylesheets="@pageCarte.css">
+        <BorderPane prefHeight="600" prefWidth="400">
+            <padding>
+                <Insets top="10" bottom="10"/>
+            </padding>
+            <top >
+                <HBox id="buttonHBox" spacing="50" alignment="CENTER">
                     <Button text="STATS" />
                     <Button text="CARTE" />
                     <Button text="IMPORT" />
                 </HBox>
             </top>
             <center>
-                <GridPane>
+                <GridPane id="buttonGridPane" hgap="30" vgap="30" alignment="CENTER">
                     <Button text="SAMPLE" GridPane.columnIndex="0" GridPane.RowIndex="0"/>
                     <Button text="SAMPLE" GridPane.columnIndex="1" GridPane.RowIndex="0"/>
                     <Button text="SAMPLE" GridPane.columnIndex="2" GridPane.RowIndex="0"/>
@@ -29,18 +33,12 @@
                 </GridPane>
             </center>
             <bottom>
-                <TableView>
-
+                <TableView prefHeight="350">
                 </TableView>
             </bottom>
         </BorderPane>
-        <MapView zoom="5" prefHeight="300" prefWidth="200">
+        <Separator orientation="VERTICAL"/>
+        <MapView zoom="5" prefHeight="600" prefWidth="500" >
         </MapView>
     </HBox>
-
-
-
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
 </VBox>

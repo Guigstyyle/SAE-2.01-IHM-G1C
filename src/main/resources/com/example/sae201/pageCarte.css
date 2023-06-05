@@ -1,0 +1,17 @@
+.button {
+    -fx-background-color: #00b9b0;
+
+}
+#root {
+    -fx-padding: 10;
+}
+.button:hover {
+    -fx-background-color: #007e71;
+}
+#buttonGridPane {
+    -fx-border-style: hidden solid solid solid;
+}
+#buttonHBox {
+    -fx-border-style: solid solid solid solid;
+    -fx-padding: 5;
+}
