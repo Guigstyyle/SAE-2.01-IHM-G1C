@@ -14,4 +14,5 @@ module com.example.sae201 {
 
     opens com.example.sae201 to javafx.fxml;
     exports com.example.sae201;
+    exports com.example.sae201.controllers;
 }
