@@ -10,6 +10,7 @@
 <?import com.sun.javafx.scene.control.EmbeddedTextContextMenuContent?>
 <?import com.sun.javafx.webkit.theme.RenderThemeImpl.FormSlider?>
 <?import org.controlsfx.control.RangeSlider?>
+<?import javafx.scene.control.skin.TableHeaderRow?>
 <VBox id="root" stylesheets="@mapView.css" alignment="CENTER" prefHeight="600" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.sae201.HelloController">
     <HBox spacing="10" alignment="CENTER">
         <BorderPane id="leftBorderPane" prefHeight="600" prefWidth="400">
@@ -24,24 +25,25 @@
                 <GridPane id="buttonGridPane" hgap="30" vgap="30" alignment="CENTER">
                     <VBox GridPane.columnIndex="0" GridPane.RowIndex="0" GridPane.columnSpan="3">
                         <Label text="Date"/>
-                        <HBox>
+                        <HBox spacing="5">
                             <TextField promptText="De" />
                             <TextField promptText="A" />
                         </HBox>
                     </VBox>
+                    <VBox spacing="10" GridPane.columnIndex="0" GridPane.RowIndex="1" GridPane.columnSpan="3">
+                        <Label text="Magnitude"/>
+                        <RangeSlider id="magnitudeSlider" min="0" max="12"/>
+                    </VBox>
+
                     <VBox id="LocRechVBox" GridPane.columnIndex="0" GridPane.RowIndex="2" GridPane.columnSpan="3">
                         <Label text="Localisation"/>
-                        <HBox>
+                        <HBox spacing="5">
                             <ComboBox promptText="Pays"/>
                             <ComboBox promptText="Département"/>
                             <VBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
-                                <Button text="RECHERCHER" GridPane.columnIndex="1" GridPane.RowIndex="1"/>
+                                <Button id="rechButton" text="RECHERCHER" GridPane.columnIndex="1" GridPane.RowIndex="1"/>
                             </VBox>
                         </HBox>
-                    </VBox>
-                    <VBox GridPane.columnIndex="0" GridPane.RowIndex="1" GridPane.columnSpan="3">
-                        <Label text="Magnitude"/>
-                        <RangeSlider id="magnitudeSlider" min="0" max="12"/>
                     </VBox>
                 </GridPane>
             </center>

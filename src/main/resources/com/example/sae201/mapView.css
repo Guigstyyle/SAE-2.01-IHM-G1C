@@ -23,7 +23,16 @@
 }
 #magnitudeSlider {
     -fx-show-tick-labels: true;
+    -fx-show-tick-marks: true;
+    -fx-major-tick-unit: 1;
+    -fx-minor-tick-count: 1;
 }
 #LocRechVBox {
     -fx-padding: 5;
+}
+#rechButton {
+    -fx-background-color: #00d357;
+}
+#rechButton:hover {
+    -fx-background-color: #009d3f;
 }
