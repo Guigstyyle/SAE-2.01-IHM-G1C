@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import com.gluonhq.maps.*?>
+
+<?import org.controlsfx.control.SearchableComboBox?>
+<?import javafx.scene.text.Text?>
+<?import com.sun.javafx.scene.control.EmbeddedTextContextMenuContent?>
+<?import com.sun.javafx.webkit.theme.RenderThemeImpl.FormSlider?>
+<?import org.controlsfx.control.RangeSlider?>
+<VBox id="root" stylesheets="@mapView.css" alignment="CENTER" prefHeight="600" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.sae201.HelloController">
+    <HBox spacing="10" alignment="CENTER">
+        <BorderPane id="leftBorderPane" prefHeight="600" prefWidth="400">
+            <top>
+                <HBox id="buttonHBox" spacing="50" alignment="CENTER">
+                    <Button text="STATS" />
+                    <Button text="CARTE" />
+                    <Button text="IMPORT" />
+                </HBox>
+            </top>
+            <center>
+                <GridPane id="buttonGridPane" hgap="30" vgap="30" alignment="CENTER">
+                    <VBox GridPane.columnIndex="0" GridPane.RowIndex="0" GridPane.columnSpan="3">
+                        <Label text="Date"/>
+                        <HBox>
+                            <TextField promptText="De" />
+                            <TextField promptText="A" />
+                        </HBox>
+                    </VBox>
+                    <VBox id="LocRechVBox" GridPane.columnIndex="0" GridPane.RowIndex="2" GridPane.columnSpan="3">
+                        <Label text="Localisation"/>
+                        <HBox>
+                            <ComboBox promptText="Pays"/>
+                            <ComboBox promptText="Département"/>
+                            <VBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
+                                <Button text="RECHERCHER" GridPane.columnIndex="1" GridPane.RowIndex="1"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                    <VBox GridPane.columnIndex="0" GridPane.RowIndex="1" GridPane.columnSpan="3">
+                        <Label text="Magnitude"/>
+                        <RangeSlider id="magnitudeSlider" min="0" max="12"/>
+                    </VBox>
+                </GridPane>
+            </center>
+            <bottom>
+                <TableView prefHeight="350">
+                </TableView>
+            </bottom>
+        </BorderPane>
+        <Separator orientation="VERTICAL"/>
+        <MapView zoom="5" prefHeight="600" prefWidth="500" >
+        </MapView>
+    </HBox>
+</VBox>

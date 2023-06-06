@@ -15,3 +15,15 @@
     -fx-border-style: solid solid solid solid;
     -fx-padding: 5;
 }
+#leftBorderPane {
+    -fx-padding: 10;
+}
+.table-view {
+    -fx-padding: 10;
+}
+#magnitudeSlider {
+    -fx-show-tick-labels: true;
+}
+#LocRechVBox {
+    -fx-padding: 5;
+}
