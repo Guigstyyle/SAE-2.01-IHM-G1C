@@ -32,7 +32,7 @@
                     </VBox>
                     <VBox spacing="10" GridPane.columnIndex="0" GridPane.RowIndex="1" GridPane.columnSpan="3">
                         <Label text="Magnitude"/>
-                        <RangeSlider id="magnitudeSlider" min="0" max="12"/>
+                        <RangeSlider showTickLabels="true" showTickMarks="true" id="magnitudeSlider" min="0" max="12"/>
                     </VBox>
 
                     <VBox id="LocRechVBox" GridPane.columnIndex="0" GridPane.RowIndex="2" GridPane.columnSpan="3">
