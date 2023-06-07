@@ -12,7 +12,9 @@ module com.example.sae201 {
     requires com.almasb.fxgl.all;
     requires com.gluonhq.maps;
 
-    opens com.example.sae201 to javafx.fxml;
+    opens com.example.sae201.view to javafx.fxml;
     exports com.example.sae201;
-    exports com.example.sae201.controllers;
+    exports com.example.sae201.view;
+    exports com.example.sae201.viewModel;
+    exports com.example.sae201.model;
 }

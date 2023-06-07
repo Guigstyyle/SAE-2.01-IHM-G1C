@@ -1,12 +1,12 @@
 package com.example.sae201;
 
-import com.example.sae201.controllers.SceneManager;
+import com.example.sae201.view.SceneManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class AppMain extends Application {
+public class Main extends Application {
     private static SceneManager sceneManager;
 
     public static SceneManager getSceneManager() {
@@ -19,10 +19,10 @@ public class AppMain extends Application {
 
         sceneManager = new SceneManager(stage);
 
-        sceneManager.preloadScene("mapView");
-        sceneManager.preloadScene("statsView");
+        sceneManager.preloadScene("MapView");
+        sceneManager.preloadScene("StatsView");
 
-        sceneManager.showScene("mapView");
+        sceneManager.showScene("MapView");
     }
 
     public static void main(String[] args) {

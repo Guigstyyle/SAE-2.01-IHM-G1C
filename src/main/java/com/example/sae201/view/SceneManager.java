@@ -1,6 +1,6 @@
-package com.example.sae201.controllers;
+package com.example.sae201.view;
 
-import com.example.sae201.AppMain;
+import com.example.sae201.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,7 +21,8 @@ public class SceneManager {
 
     public void preloadScene(String fileName) {
         try {
-            FXMLLoader loader = new FXMLLoader(AppMain.class.getResource(fileName + ".fxml"));
+            System.out.println(fileName);
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/" + fileName + ".fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             scenes.put(fileName, scene);

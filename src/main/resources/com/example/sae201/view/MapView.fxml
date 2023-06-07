@@ -11,14 +11,14 @@
 <?import com.sun.javafx.webkit.theme.RenderThemeImpl.FormSlider?>
 <?import org.controlsfx.control.RangeSlider?>
 <?import javafx.scene.control.skin.TableHeaderRow?>
-<VBox id="root" stylesheets="@css/mapView.css" alignment="CENTER" prefHeight="600" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.sae201.controllers.MapController">
+<VBox id="root" stylesheets="@../css/mapView.css" alignment="CENTER" prefHeight="600" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.sae201.view.MapController">
     <HBox spacing="10" alignment="CENTER">
         <BorderPane id="leftBorderPane" prefHeight="600" prefWidth="400">
             <top>
                 <HBox id="buttonHBox" spacing="50" alignment="CENTER">
-                    <Button fx:id="statsView" text="STATS" onAction="#buttonsHandler" />
-                    <Button fx:id="mapView" text="CARTE" onAction="#buttonsHandler" />
-                    <Button fx:id="importView" text="IMPORT" onAction="#buttonsHandler" />
+                    <Button fx:id="StatsView" text="STATS" onAction="#buttonsHandler" />
+                    <Button fx:id="MapView" text="CARTE" onAction="#buttonsHandler" />
+                    <Button fx:id="ImportView" text="IMPORT" onAction="#buttonsHandler" />
                 </HBox>
             </top>
             <center>
