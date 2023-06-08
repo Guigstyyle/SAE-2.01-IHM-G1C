@@ -21,6 +21,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        System.setProperty("javafx.platform", "desktop");
+        System.setProperty("http.agent", "Gluon Mobile/1.0.3");
+
         stage.setTitle("SAE");
 
         dataManager = new DataManager();
