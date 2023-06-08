@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import com.gluonhq.maps.*?>
 
-<?import org.controlsfx.control.SearchableComboBox?>
-<?import javafx.scene.text.Text?>
-<?import com.sun.javafx.scene.control.EmbeddedTextContextMenuContent?>
-<?import com.sun.javafx.webkit.theme.RenderThemeImpl.FormSlider?>
 <?import org.controlsfx.control.RangeSlider?>
-<?import javafx.scene.control.skin.TableHeaderRow?>
 <VBox id="root" stylesheets="@../css/mapView.css" alignment="CENTER" prefHeight="600" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.sae201.view.MapController">
     <HBox spacing="10" alignment="CENTER">
         <BorderPane id="leftBorderPane" prefHeight="600" prefWidth="400">
             <top>
                 <HBox id="buttonHBox" spacing="50" alignment="CENTER">
-                    <Button fx:id="StatsView" text="STATS" onAction="#buttonsHandler" />
-                    <Button fx:id="MapView" text="CARTE" onAction="#buttonsHandler" />
-                    <Button fx:id="ImportView" text="IMPORT" onAction="#buttonsHandler" />
+                    <Button fx:id="StatsView" text="STATS" onAction="#navButtonsHandler" />
+                    <Button fx:id="MapView" text="CARTE" onAction="#navButtonsHandler" />
+                    <Button fx:id="ImportView" text="IMPORT" onAction="#navButtonsHandler" />
                 </HBox>
             </top>
             <center>
@@ -26,29 +20,29 @@
                     <VBox GridPane.columnIndex="0" GridPane.RowIndex="0" GridPane.columnSpan="3">
                         <Label text="Date"/>
                         <HBox spacing="5">
-                            <TextField promptText="De" />
-                            <TextField promptText="A" />
+                            <TextField fx:id="dateMin" promptText="De" />
+                            <TextField fx:id="dateMax" promptText="A" />
                         </HBox>
                     </VBox>
                     <VBox spacing="10" GridPane.columnIndex="0" GridPane.RowIndex="1" GridPane.columnSpan="3">
                         <Label text="Magnitude"/>
-                        <RangeSlider showTickLabels="true" showTickMarks="true" id="magnitudeSlider" min="0" max="12"/>
+                        <RangeSlider fx:id="magnitudeSlider" showTickLabels="true" showTickMarks="true" id="magnitudeSlider" min="0" max="12"/>
                     </VBox>
 
                     <VBox id="LocRechVBox" GridPane.columnIndex="0" GridPane.RowIndex="2" GridPane.columnSpan="3">
                         <Label text="Localisation"/>
                         <HBox spacing="5">
-                            <ComboBox promptText="Pays"/>
-                            <ComboBox promptText="Département"/>
+                            <ComboBox fx:id="country" promptText="Pays"/>
+                            <ComboBox fx:id="department" promptText="Département"/>
                             <VBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
-                                <Button id="rechButton" text="RECHERCHER" GridPane.columnIndex="1" GridPane.RowIndex="1"/>
+                                <Button id="searchButton" text="RECHERCHER" GridPane.columnIndex="1" GridPane.RowIndex="1" onAction="#searchButtonHandler"/>
                             </VBox>
                         </HBox>
                     </VBox>
                 </GridPane>
             </center>
             <bottom>
-                <TableView prefHeight="350">
+                <TableView fx:id="dataTable" prefHeight="350">
                 </TableView>
             </bottom>
         </BorderPane>

@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DataManager {
     private final String CSV_FILE_NAME = "SisFrance_seismes_20230604151458.csv";
@@ -38,8 +39,8 @@ public class DataManager {
                 data.setName(tmpData[3]);
                 data.setRegion(tmpData[4]);
                 data.setShock(tmpData[5]);
-                data.setxRGF93(parseDoubleOrNull(tmpData[6]));
-                data.setyRGF93(parseDoubleOrNull(tmpData[7]));
+                data.setXRGF93(parseDoubleOrNull(tmpData[6]));
+                data.setYRGF93(parseDoubleOrNull(tmpData[7]));
                 data.setLatitude(parseDoubleOrNull(tmpData[8]));
                 data.setLongitude(parseDoubleOrNull(tmpData[9]));
                 data.setIntensity(parseDoubleOrNull(tmpData[10]));
@@ -83,4 +84,49 @@ public class DataManager {
     public ObservableList<Data> getDataList() {
         return dataList;
     }
+
+    public ObservableList<Data> filterData(Map<String, Object> searchData) {
+        ObservableList<Data> filteredData = FXCollections.observableArrayList();
+
+        for (Data data : dataList) {
+            System.out.println("\n" + data.toString());
+            boolean matchesCriteria = true;
+
+            String dateMin = (String) searchData.get("dateMin");
+            String dateMax = (String) searchData.get("dateMax");
+            if (!dateMin.isEmpty() && compareDates(data.getDate(), dateMin) < 0) {
+                matchesCriteria = false;
+                System.out.println("Date Min: Not Passed!");
+            }
+            if (!dateMax.isEmpty() && compareDates(data.getDate(), dateMax) > 0) {
+                matchesCriteria = false;
+                System.out.println("Date Max: Not Passed!");
+            }
+
+            Double intensityMin = (Double) searchData.get("intensityMin");
+            Double intensityMax = (Double) searchData.get("intensityMax");
+            if (intensityMin != null && data.getIntensity() < intensityMin) {
+                matchesCriteria = false;
+                System.out.println("Intensity Min: Not Passed");
+            }
+            if (intensityMax != null && data.getIntensity() > intensityMax) {
+                matchesCriteria = false;
+                System.out.println("Intensity Max: Not Passed");
+            }
+
+            if (matchesCriteria) {
+                filteredData.add(data);
+                System.out.println("\u001B[32m Data Matches: Ok! \u001B[0m");
+            } else {
+                System.out.println("\u001B[31m Data does not match: Not Ok! \u001B[0m");
+            }
+        }
+        return filteredData;
+    }
+
+    private int compareDates(String dataDate, String filterDate) {
+        int minLength = Math.min(dataDate.length(), filterDate.length());
+        return dataDate.substring(0, minLength).compareTo(filterDate.substring(0, minLength));
+    }
+
 }

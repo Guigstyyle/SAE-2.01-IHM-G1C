@@ -18,7 +18,7 @@ public class StatsController {
     }
 
     @FXML
-    public void buttonsHandler(ActionEvent event) {
+    public void navButtonsHandler(ActionEvent event) {
         Button btnUsed = (Button) event.getSource();
         String btnID = btnUsed.getId();
 

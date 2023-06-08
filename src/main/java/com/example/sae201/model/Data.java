@@ -63,19 +63,19 @@ public class Data {
         this.shock = shock;
     }
 
-    public Double getxRGF93() {
+    public Double getXRGF93() {
         return xRGF93;
     }
 
-    public void setxRGF93(Double xRGF93) {
+    public void setXRGF93(Double xRGF93) {
         this.xRGF93 = xRGF93;
     }
 
-    public Double getyRGF93() {
+    public Double getYRGF93() {
         return yRGF93;
     }
 
-    public void setyRGF93(Double yRGF93) {
+    public void setYRGF93(Double yRGF93) {
         this.yRGF93 = yRGF93;
     }
 
@@ -109,5 +109,23 @@ public class Data {
 
     public void setIntensityQuality(String intensityQuality) {
         this.intensityQuality = intensityQuality;
+    }
+
+    @Override
+    public String toString() {
+        return "Data{" +
+                "id=" + id +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", name='" + name + '\'' +
+                ", region='" + region + '\'' +
+                ", shock='" + shock + '\'' +
+                ", xRGF93=" + xRGF93 +
+                ", yRGF93=" + yRGF93 +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", intensity=" + intensity +
+                ", intensityQuality='" + intensityQuality + '\'' +
+                '}';
     }
 }

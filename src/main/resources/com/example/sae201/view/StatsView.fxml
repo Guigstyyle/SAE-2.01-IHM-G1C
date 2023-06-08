@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <VBox id="root" stylesheets="@../css/statsView.css" alignment="CENTER" prefHeight="600" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.sae201.view.StatsController">
     <HBox id="buttonHBox" spacing="50" alignment="CENTER">
-        <Button fx:id="StatsView" text="STATS" onAction="#buttonsHandler" />
-        <Button fx:id="MapView" text="CARTE" onAction="#buttonsHandler" />
-        <Button fx:id="ImportView" text="IMPORT" onAction="#buttonsHandler" />
+        <Button fx:id="StatsView" text="STATS" onAction="#navButtonsHandler" />
+        <Button fx:id="MapView" text="CARTE" onAction="#navButtonsHandler" />
+        <Button fx:id="ImportView" text="IMPORT" onAction="#navButtonsHandler" />
     </HBox>
 </VBox>

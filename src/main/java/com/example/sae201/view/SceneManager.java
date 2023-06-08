@@ -21,7 +21,6 @@ public class SceneManager {
 
     public void preloadScene(String fileName) {
         try {
-            System.out.println(fileName);
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("view/" + fileName + ".fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
