@@ -2,7 +2,12 @@ package com.example.sae201.view;
 
 import com.example.sae201.Main;
 import com.example.sae201.model.Data;
+import com.example.sae201.model.MapRectangleLayer;
 import com.example.sae201.viewModel.MapViewModel;
+import com.gluonhq.maps.MapLayer;
+import com.gluonhq.maps.MapPoint;
+import com.gluonhq.maps.MapView;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,13 +36,20 @@ public class MapController implements Initializable {
     private ComboBox<String> department;
     @FXML
     private TableView dataTable;
+    @FXML
+    private MapView map;
 
     private MapViewModel mapViewModel;
     private ObservableList<Data> dataList;
+    private ObservableList<MapLayer> mapLayers;
+
 
     public MapController() {
         SceneManager sceneManager = Main.getSceneManager();
         mapViewModel = new MapViewModel(sceneManager);
+        map = new MapView();
+        dataList = FXCollections.observableArrayList();
+        mapLayers = FXCollections.observableArrayList();
     }
 
     @FXML
@@ -62,6 +74,25 @@ public class MapController implements Initializable {
         dataList = mapViewModel.getFilteredData(searchData);
 
         dataTable.setItems(dataList);
+
+        if (mapLayers.size() != 0) {
+            for (MapLayer mapLayer : mapLayers) {
+                map.removeLayer(mapLayer);
+            }
+        }
+
+        for (Data data : dataList) {
+            Double latitude = data.getLatitude();
+            Double longitude = data.getLongitude();
+
+            if (latitude != null && longitude != null) {
+                MapPoint mapPoint = new MapPoint(latitude, longitude);
+                MapLayer mapLayer = new MapRectangleLayer(mapPoint);
+
+                mapLayers.add(mapLayer);
+                map.addLayer(mapLayer);
+            }
+        }
 
         System.out.println("dateMin: " + searchData.get("dateMin"));
         System.out.println("dateMax: " + searchData.get("dateMax"));
@@ -105,8 +136,14 @@ public class MapController implements Initializable {
                 intensityValueColumn, intensityQualityColumn);
     }
 
+    private void initializeMap() {
+        map.setCenter(46.6, 1.88);
+        map.setZoom(5.8);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeTable();
+        initializeMap();
     }
 }

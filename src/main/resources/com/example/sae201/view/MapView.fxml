@@ -47,7 +47,7 @@
             </bottom>
         </BorderPane>
         <Separator orientation="VERTICAL"/>
-        <MapView zoom="5" prefHeight="600" prefWidth="500" >
+        <MapView fx:id="map" zoom="5" prefHeight="600" prefWidth="500" >
         </MapView>
     </HBox>
 </VBox>
