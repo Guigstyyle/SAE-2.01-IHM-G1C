@@ -33,7 +33,7 @@ public class MapController implements Initializable {
     @FXML
     private ComboBox<String> country;
     @FXML
-    private ComboBox<String> department;
+    private ComboBox<String> region;
     @FXML
     private TableView dataTable;
     @FXML
@@ -69,7 +69,7 @@ public class MapController implements Initializable {
         searchData.put("intensityMin", this.magnitudeSlider.getLowValue());
         searchData.put("intensityMax", this.magnitudeSlider.getHighValue());
         searchData.put("country", this.country.getValue());
-        searchData.put("department", this.department.getValue());
+        searchData.put("region", this.region.getValue());
 
         dataList = mapViewModel.getFilteredData(searchData);
 
@@ -79,6 +79,7 @@ public class MapController implements Initializable {
             for (MapLayer mapLayer : mapLayers) {
                 map.removeLayer(mapLayer);
             }
+            mapLayers.clear();
         }
 
         for (Data data : dataList) {
@@ -145,5 +146,6 @@ public class MapController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initializeTable();
         initializeMap();
+        region.setItems(mapViewModel.getAllRegions());
     }
 }

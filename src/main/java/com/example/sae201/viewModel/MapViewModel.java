@@ -24,4 +24,8 @@ public class MapViewModel {
     public ObservableList<Data> getFilteredData(HashMap<String, Object> searchData) {
         return dataManager.filterData(searchData);
     }
+
+    public ObservableList<String> getAllRegions() {
+        return dataManager.getAllRegions();
+    }
 }

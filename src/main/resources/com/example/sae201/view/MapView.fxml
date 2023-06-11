@@ -33,7 +33,7 @@
                         <Label text="Localisation"/>
                         <HBox spacing="5">
                             <ComboBox fx:id="country" promptText="Pays"/>
-                            <ComboBox fx:id="department" promptText="Département"/>
+                            <ComboBox fx:id="region" promptText="Département"/>
                             <VBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
                                 <Button id="searchButton" text="RECHERCHER" GridPane.columnIndex="1" GridPane.RowIndex="1" onAction="#searchButtonHandler"/>
                             </VBox>

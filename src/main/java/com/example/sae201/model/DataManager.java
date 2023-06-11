@@ -114,6 +114,12 @@ public class DataManager {
                 System.out.println("Intensity Max: Not Passed");
             }
 
+            String region = (String) searchData.get("region");
+            if (region != null && !data.getRegion().equals(region)) {
+                matchesCriteria = false;
+                System.out.println("Region: Not Passed");
+            }
+
             if (matchesCriteria) {
                 filteredData.add(data);
                 System.out.println("\u001B[32m Data Matches: Ok! \u001B[0m");
@@ -127,6 +133,17 @@ public class DataManager {
     private int compareDates(String dataDate, String filterDate) {
         int minLength = Math.min(dataDate.length(), filterDate.length());
         return dataDate.substring(0, minLength).compareTo(filterDate.substring(0, minLength));
+    }
+
+    public ObservableList<String> getAllRegions() {
+        ObservableList<String> regions = FXCollections.observableArrayList();
+        for (Data data : dataList) {
+            String region = data.getRegion();
+            if (region != null && !region.isEmpty() && !regions.contains(region)) {
+                regions.add(region);
+            }
+        }
+        return regions;
     }
 
 }
