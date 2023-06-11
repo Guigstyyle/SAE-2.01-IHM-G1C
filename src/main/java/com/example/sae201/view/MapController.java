@@ -95,6 +95,12 @@ public class MapController implements Initializable {
             }
         }
 
+        if (searchData.get("region") != null && dataList.size() != 0) {
+            map.flyTo(1, new MapPoint(dataList.get(0).getLatitude(), dataList.get(0).getLongitude()), 0.1);
+        } else {
+            map.flyTo(1, new MapPoint(46.6, 1.88), 0.1);
+        }
+
         System.out.println("dateMin: " + searchData.get("dateMin"));
         System.out.println("dateMax: " + searchData.get("dateMax"));
         System.out.println("intensityMin: " + searchData.get("intensityMin"));
