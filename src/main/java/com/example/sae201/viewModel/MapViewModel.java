@@ -28,4 +28,29 @@ public class MapViewModel {
     public ObservableList<String> getAllRegions() {
         return dataManager.getAllRegions();
     }
+
+    public HashMap<String, Double> getAverageLatitudeAndLongitude(ObservableList<Data> dataList) {
+        HashMap<String, Double> results = new HashMap<>();
+        double sumLatitude = 0;
+        double sumLongitude = 0;
+        int count = 0;
+
+        for (Data data : dataList) {
+            Double latitude = data.getLatitude();
+            Double longitude = data.getLongitude();
+
+            if (latitude != null && longitude != null) {
+                sumLatitude += latitude;
+                sumLongitude += longitude;
+                count += 1;
+            }
+        }
+
+        if (count > 0) {
+            results.put("averageLatitude", sumLatitude / count);
+            results.put("averageLongitude", sumLongitude / count);
+        }
+
+        return results;
+    }
 }

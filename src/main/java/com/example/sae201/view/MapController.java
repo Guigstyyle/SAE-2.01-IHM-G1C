@@ -96,9 +96,12 @@ public class MapController implements Initializable {
         }
 
         if (searchData.get("region") != null && dataList.size() != 0) {
-            map.flyTo(1, new MapPoint(dataList.get(0).getLatitude(), dataList.get(0).getLongitude()), 0.1);
+            HashMap<String, Double> averageLatitudeAndLongitude = mapViewModel.getAverageLatitudeAndLongitude(dataList);
+            map.setZoom(7);
+            map.flyTo(0.1, new MapPoint(averageLatitudeAndLongitude.get("averageLatitude"), averageLatitudeAndLongitude.get("averageLongitude")), 0.8);
         } else {
-            map.flyTo(1, new MapPoint(46.6, 1.88), 0.1);
+            map.setZoom(5.8);
+            map.flyTo(0.1, new MapPoint(46.6, 1.88), 0.8);
         }
 
         System.out.println("dateMin: " + searchData.get("dateMin"));
@@ -106,7 +109,7 @@ public class MapController implements Initializable {
         System.out.println("intensityMin: " + searchData.get("intensityMin"));
         System.out.println("intensityMax: " + searchData.get("intensityMax"));
         System.out.println("country: " + searchData.get("country"));
-        System.out.println("department: " + searchData.get("department"));
+        System.out.println("region: " + searchData.get("region"));
     }
 
     private void initializeTable() {
@@ -119,8 +122,6 @@ public class MapController implements Initializable {
         TableColumn<Data, String> intensityColumn = new TableColumn<>("Intensité épicentrale");
         TableColumn<Data, Double> xRGF93Column = new TableColumn<>("xRGF93");
         TableColumn<Data, Double> yRGF93Column = new TableColumn<>("yRGF93");
-        TableColumn<Data, Double> latitudeColumn = new TableColumn<>("Latitude");
-        TableColumn<Data, Double> longitudeColumn = new TableColumn<>("Longitude");
         TableColumn<Data, Double> intensityValueColumn = new TableColumn<>("Intensité");
         TableColumn<Data, String> intensityQualityColumn = new TableColumn<>("Qualité de l'intensité");
 
@@ -133,13 +134,11 @@ public class MapController implements Initializable {
         intensityColumn.setCellValueFactory(new PropertyValueFactory<>("intensity"));
         xRGF93Column.setCellValueFactory(new PropertyValueFactory<>("xRGF93"));
         yRGF93Column.setCellValueFactory(new PropertyValueFactory<>("yRGF93"));
-        latitudeColumn.setCellValueFactory(new PropertyValueFactory<>("latitude"));
-        longitudeColumn.setCellValueFactory(new PropertyValueFactory<>("longitude"));
         intensityValueColumn.setCellValueFactory(new PropertyValueFactory<>("intensity"));
         intensityQualityColumn.setCellValueFactory(new PropertyValueFactory<>("intensityQuality"));
 
         dataTable.getColumns().addAll(idColumn, dateColumn, timeColumn, nameColumn, regionColumn,
-                shockColumn, intensityColumn, xRGF93Column, yRGF93Column, latitudeColumn, longitudeColumn,
+                shockColumn, intensityColumn, xRGF93Column, yRGF93Column,
                 intensityValueColumn, intensityQualityColumn);
     }
 
