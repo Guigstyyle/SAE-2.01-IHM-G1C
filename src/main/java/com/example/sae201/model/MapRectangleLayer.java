@@ -14,7 +14,7 @@ public class MapRectangleLayer extends MapLayer {
         this.mapPoint = mapPoint;
         this.rectangle = new Rectangle(10, 10, 20, 20);
         rectangle.setFill(Color.TRANSPARENT);
-        rectangle.setStroke(Color.BLACK);
+        rectangle.setStroke(Color.TRANSPARENT);
         rectangle.setStrokeWidth(2);
         this.getChildren().add(rectangle);
     }
@@ -24,5 +24,6 @@ public class MapRectangleLayer extends MapLayer {
         Point2D point2D = this.getMapPoint(mapPoint.getLatitude(), mapPoint.getLongitude());
         rectangle.setTranslateX(point2D.getX());
         rectangle.setTranslateY(point2D.getY());
+        rectangle.setStroke(Color.BLACK);
     }
 }
