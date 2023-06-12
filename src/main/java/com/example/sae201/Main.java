@@ -30,6 +30,7 @@ public class Main extends Application {
         sceneManager = new SceneManager(stage);
 
         dataManager.loadData();
+        dataManager.loadDepData();
         sceneManager.preloadScene("MapView");
         sceneManager.preloadScene("StatsView");
 

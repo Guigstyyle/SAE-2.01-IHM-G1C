@@ -8,16 +8,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DataManager {
     private final String CSV_FILE_NAME = "SisFrance_seismes_20230604151458.csv";
+    private final String CSV_DEP_FILE_NAME = "FrenchDepartments.csv";
+    private final String GEOJSON_DEP_FILE_NAME = "DepartmentData.geojson";
     private ObservableList<Data> dataList;
+    private HashMap<String, String> frenchDepartments;
+    private MapLocationChecker mapLocationChecker;
 
     public DataManager() {
         dataList = FXCollections.observableArrayList();
+        frenchDepartments = new HashMap<>();
+        try {
+            mapLocationChecker = new MapLocationChecker(GEOJSON_DEP_FILE_NAME);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void loadData() throws IOException {
@@ -47,6 +55,24 @@ public class DataManager {
                 data.setIntensityQuality(tmpData[11]);
 
                 dataList.add(data);
+            }
+        }
+    }
+
+    public void loadDepData() throws IOException {
+        URL csvFileUrl = Main.class.getResource(CSV_DEP_FILE_NAME);
+        if (csvFileUrl == null) {
+            throw new IOException("File not found: " + CSV_DEP_FILE_NAME);
+        }
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(csvFileUrl.openStream()))) {
+            reader.readLine();
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] tmpData = parseLineCSV(line);
+
+                frenchDepartments.put(tmpData[0], tmpData[1]);
             }
         }
     }
@@ -85,6 +111,10 @@ public class DataManager {
         return dataList;
     }
 
+    public HashMap<String, String> getFrenchDepartments() {
+        return frenchDepartments;
+    }
+
     public ObservableList<Data> filterData(Map<String, Object> searchData) {
         ObservableList<Data> filteredData = FXCollections.observableArrayList();
 
@@ -114,10 +144,16 @@ public class DataManager {
                 System.out.println("Intensity Max: Not Passed");
             }
 
-            String region = (String) searchData.get("region");
-            if (region != null && !data.getRegion().equals(region)) {
+            Double dataLatitude = data.getLatitude();
+            Double dataLongitude = data.getLongitude();
+            String departmentCode = frenchDepartments.get((String) searchData.get("department"));
+            boolean isInDepartment = false;
+            if (dataLatitude != null && dataLongitude != null) {
+                isInDepartment = mapLocationChecker.isInDepartment(dataLatitude, dataLongitude, departmentCode);
+            }
+            if (departmentCode != null && !isInDepartment) {
                 matchesCriteria = false;
-                System.out.println("Region: Not Passed");
+                System.out.println("Department: Not Passed");
             }
 
             if (matchesCriteria) {

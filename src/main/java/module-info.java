@@ -11,6 +11,7 @@ module com.example.sae201 {
 
     requires com.almasb.fxgl.all;
     requires com.gluonhq.maps;
+    requires org.json;
 
     opens com.example.sae201.view to javafx.fxml;
     exports com.example.sae201;

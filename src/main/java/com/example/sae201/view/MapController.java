@@ -33,7 +33,7 @@ public class MapController implements Initializable {
     @FXML
     private ComboBox<String> country;
     @FXML
-    private ComboBox<String> region;
+    private ComboBox<String> department;
     @FXML
     private TableView dataTable;
     @FXML
@@ -69,7 +69,7 @@ public class MapController implements Initializable {
         searchData.put("intensityMin", this.magnitudeSlider.getLowValue());
         searchData.put("intensityMax", this.magnitudeSlider.getHighValue());
         searchData.put("country", this.country.getValue());
-        searchData.put("region", this.region.getValue());
+        searchData.put("department", this.department.getValue());
 
         dataList = mapViewModel.getFilteredData(searchData);
 
@@ -95,7 +95,7 @@ public class MapController implements Initializable {
             }
         }
 
-        if (searchData.get("region") != null && dataList.size() != 0) {
+        if (searchData.get("department") != null && !searchData.get("department").equals("Département") && dataList.size() != 0) {
             HashMap<String, Double> averageLatitudeAndLongitude = mapViewModel.getAverageLatitudeAndLongitude(dataList);
             map.setZoom(7);
             map.flyTo(0.1, new MapPoint(averageLatitudeAndLongitude.get("averageLatitude"), averageLatitudeAndLongitude.get("averageLongitude")), 0.8);
@@ -109,7 +109,7 @@ public class MapController implements Initializable {
         System.out.println("intensityMin: " + searchData.get("intensityMin"));
         System.out.println("intensityMax: " + searchData.get("intensityMax"));
         System.out.println("country: " + searchData.get("country"));
-        System.out.println("region: " + searchData.get("region"));
+        System.out.println("department: " + searchData.get("department"));
     }
 
     private void initializeTable() {
@@ -151,6 +151,7 @@ public class MapController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initializeTable();
         initializeMap();
-        region.setItems(mapViewModel.getAllRegions());
+        department.setItems(mapViewModel.getAllDepartments());
+        department.getItems().add(0, "Département");
     }
 }

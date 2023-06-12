@@ -4,6 +4,7 @@ import com.example.sae201.Main;
 import com.example.sae201.model.Data;
 import com.example.sae201.model.DataManager;
 import com.example.sae201.view.SceneManager;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.HashMap;
@@ -27,6 +28,12 @@ public class MapViewModel {
 
     public ObservableList<String> getAllRegions() {
         return dataManager.getAllRegions();
+    }
+
+    public  ObservableList<String> getAllDepartments() {
+        ObservableList<String> departments = FXCollections.observableArrayList();
+        departments.addAll(dataManager.getFrenchDepartments().keySet());
+        return departments;
     }
 
     public HashMap<String, Double> getAverageLatitudeAndLongitude(ObservableList<Data> dataList) {
