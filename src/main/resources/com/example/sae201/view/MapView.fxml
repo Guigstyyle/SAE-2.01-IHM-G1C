@@ -5,7 +5,7 @@
 <?import com.gluonhq.maps.*?>
 
 <?import org.controlsfx.control.RangeSlider?>
-<VBox id="root" stylesheets="@../css/mapView.css" alignment="CENTER" prefHeight="600" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.sae201.view.MapController">
+<VBox id="root" stylesheets="@../css/mapView.css" alignment="CENTER" prefHeight="620" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.sae201.view.MapController">
     <HBox spacing="10" alignment="CENTER">
         <BorderPane id="leftBorderPane" prefHeight="600" prefWidth="400">
             <top>
@@ -16,7 +16,7 @@
                 </HBox>
             </top>
             <center>
-                <GridPane id="buttonGridPane" hgap="30" vgap="30" alignment="CENTER">
+                <GridPane id="buttonGridPane" prefWidth="350.0" hgap="30" vgap="30" alignment="CENTER">
                     <VBox GridPane.columnIndex="0" GridPane.RowIndex="0" GridPane.columnSpan="3">
                         <Label text="Date"/>
                         <HBox spacing="5">
