@@ -12,6 +12,7 @@ import javafx.collections.ObservableMap;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
@@ -45,6 +46,8 @@ public class DataManager {
         try {
             mapLocationChecker = new MapLocationChecker(GEOJSON_DEP_FILE_NAME);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }

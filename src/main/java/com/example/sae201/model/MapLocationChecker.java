@@ -1,6 +1,8 @@
 package com.example.sae201.model;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,12 +14,12 @@ import org.json.JSONObject;
 public class MapLocationChecker {
     private JSONObject departmentData;
 
-    public MapLocationChecker(String filePath) throws IOException {
-        Path path = Paths.get(Main.class.getResource(filePath).getPath());
+    public MapLocationChecker(String filePath) throws IOException, URISyntaxException {
+        URL resourceUrl = Main.class.getResource(filePath);
+        Path path = Paths.get(resourceUrl.toURI());
         String jsonData = new String(Files.readAllBytes(path));
         departmentData = new JSONObject(jsonData);
     }
-
     public boolean isInDepartment(double latitude, double longitude, String departmentCode) {
         JSONArray features = departmentData.getJSONArray("features");
         for (int i = 0; i < features.length(); i++) {
