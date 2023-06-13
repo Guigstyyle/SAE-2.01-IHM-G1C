@@ -2,7 +2,7 @@ package com.example.sae201.view;
 
 import com.example.sae201.Main;
 import com.example.sae201.model.Data;
-import com.example.sae201.model.MapRectangleLayer;
+import com.example.sae201.model.MapCircleLayer;
 import com.example.sae201.viewModel.MapViewModel;
 import com.gluonhq.maps.MapLayer;
 import com.gluonhq.maps.MapPoint;
@@ -116,7 +116,7 @@ public class MapController implements Initializable {
 
             if (latitude != null && longitude != null) {
                 MapPoint mapPoint = new MapPoint(latitude, longitude);
-                MapLayer mapLayer = new MapRectangleLayer(mapPoint);
+                MapLayer mapLayer = new MapCircleLayer(mapPoint);
 
                 mapLayers.add(mapLayer);
                 map.addLayer(mapLayer);

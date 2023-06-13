@@ -4,26 +4,25 @@ import com.gluonhq.maps.MapLayer;
 import com.gluonhq.maps.MapPoint;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class MapRectangleLayer extends MapLayer {
+public class MapCircleLayer extends MapLayer {
     private final MapPoint mapPoint;
-    private final Rectangle rectangle;
+    private final Circle circle;
 
-    public MapRectangleLayer(MapPoint mapPoint) {
+    public MapCircleLayer(MapPoint mapPoint) {
         this.mapPoint = mapPoint;
-        this.rectangle = new Rectangle(8, 8, 16, 16);
-        rectangle.setFill(Color.TRANSPARENT);
-        rectangle.setStroke(Color.BLACK);
-        rectangle.setStrokeWidth(2);
-        this.getChildren().add(rectangle);
+        this.circle = new Circle(5);
+        circle.setFill(Color.RED);
+        this.getChildren().add(circle);
     }
 
     @Override
     protected void layoutLayer() {
         Point2D point2D = this.getMapPoint(mapPoint.getLatitude(), mapPoint.getLongitude());
-        rectangle.setTranslateX(point2D.getX());
-        rectangle.setTranslateY(point2D.getY());
+        circle.setTranslateX(point2D.getX());
+        circle.setTranslateY(point2D.getY());
     }
 
     @Override

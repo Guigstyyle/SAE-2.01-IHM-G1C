@@ -27,6 +27,7 @@ public class DataManager {
     private BooleanProperty dataFiltered;
     private BooleanBinding searchAndFilterBinding;
     private ObservableList<YearIntensityData> intensityPerYearData;
+    private Map<String, Integer> intensityData;
 
     public DataManager() {
         searchDataUpdated = new SimpleBooleanProperty(false);
@@ -37,6 +38,7 @@ public class DataManager {
         filteredData = FXCollections.observableArrayList();
         searchData = FXCollections.observableHashMap();
         intensityPerYearData = FXCollections.observableArrayList();
+        intensityData = new HashMap<>();
         try {
             mapLocationChecker = new MapLocationChecker(GEOJSON_DEP_FILE_NAME);
         } catch (IOException e) {
@@ -245,5 +247,47 @@ public class DataManager {
         }
 
         return intensityPerYearData;
+    }
+
+    public Map<String, Integer> getRichterIntensityData() {
+        intensityData.put("0-2", 0);
+        intensityData.put("2-3", 0);
+        intensityData.put("3-4", 0);
+        intensityData.put("4-5", 0);
+        intensityData.put("5-6", 0);
+        intensityData.put("6-7", 0);
+        intensityData.put("7-8", 0);
+        intensityData.put("8+", 0);
+
+        for (Data data : filteredData) {
+            Double intensity = data.getIntensity();
+            String range = getIntensityRange(intensity);
+
+            if (intensityData.containsKey(range)) {
+                intensityData.put(range, intensityData.get(range)+1);
+            }
+        }
+
+        return intensityData;
+    }
+
+    private String getIntensityRange(Double intensity) {
+        if (intensity >= 0 && intensity < 2) {
+            return "0-2";
+        } else if (intensity >= 2 && intensity < 3) {
+            return "2-3";
+        } else if (intensity >= 3 && intensity < 4) {
+            return "3-4";
+        } else if (intensity >= 4 && intensity < 5) {
+            return "4-5";
+        } else if (intensity >= 5 && intensity < 6) {
+            return "5-6";
+        } else if (intensity >= 6 && intensity < 7) {
+            return "6-7";
+        } else if (intensity >= 7 && intensity < 8) {
+            return "7-8";
+        } else {
+            return "8+";
+        }
     }
 }

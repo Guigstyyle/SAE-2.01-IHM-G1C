@@ -6,15 +6,13 @@ import com.example.sae201.model.YearIntensityData;
 import com.example.sae201.viewModel.StatsViewModel;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
@@ -23,6 +21,7 @@ import org.controlsfx.control.RangeSlider;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Map;
 import java.nio.file.Path;
 import java.util.ResourceBundle;
 
@@ -42,7 +41,11 @@ public class StatsController implements Initializable {
     @FXML
     private LineChart<String, Number> lineChart;
     private CategoryAxis xAxisLineChart;
+    private CategoryAxis xAxisBarChart;
     private NumberAxis yAxisLineChart;
+    private NumberAxis yAxisBarChart;
+    @FXML
+    private BarChart<String, Number> barChart;
     @FXML
     private TableView dataTable;
     private StatsViewModel statsViewModel;
@@ -52,6 +55,7 @@ public class StatsController implements Initializable {
     private BooleanProperty dataFiltered;
     private BooleanBinding searchAndFilterBinding;
     private ObservableList<YearIntensityData> intensityPerYearData;
+    private Map<String, Integer> intensityData;
 
     public StatsController() {
         SceneManager sceneManager = Main.getSceneManager();
@@ -62,6 +66,7 @@ public class StatsController implements Initializable {
         dataFiltered = statsViewModel.getDataFilteredProperty();
         searchAndFilterBinding = statsViewModel.getSearchAndFilerBinding();
         intensityPerYearData = statsViewModel.getIntensityPerYearData();
+        intensityData = statsViewModel.getRichterIntensityData();
     }
 
     @FXML
@@ -91,6 +96,7 @@ public class StatsController implements Initializable {
         searchDataUpdated.set(true);
 
         dataList = statsViewModel.getFilteredData(searchData);
+        intensityData = statsViewModel.getRichterIntensityData();
 
         System.out.println("dateMin: " + searchData.get("dateMin"));
         System.out.println("dateMax: " + searchData.get("dateMax"));
@@ -98,6 +104,14 @@ public class StatsController implements Initializable {
         System.out.println("intensityMax: " + searchData.get("intensityMax"));
         System.out.println("country: " + searchData.get("country"));
         System.out.println("department: " + searchData.get("department"));
+
+        System.out.println("0-2: " + intensityData.get("0-2"));
+        System.out.println("2-3: " + intensityData.get("2-3"));
+        System.out.println("3-4: " + intensityData.get("3-4"));
+        System.out.println("4-5: " + intensityData.get("4-5"));
+        System.out.println("5-6: " + intensityData.get("5-6"));
+        System.out.println("6-7: " + intensityData.get("6-7"));
+        System.out.println("8+: " + intensityData.get("8+"));
     }
 
     private void renderLineChart() {
@@ -118,6 +132,25 @@ public class StatsController implements Initializable {
         lineChart.getData().add(series);
     }
 
+    private void renderBarChart() {
+        intensityData = statsViewModel.getRichterIntensityData();
+
+        barChart.getData().clear();
+
+        ObservableList<XYChart.Data<String, Number>> test = FXCollections.observableArrayList(
+                new XYChart.Data<>("0-2", intensityData.get("0-2")),
+                new XYChart.Data<>("2-3", intensityData.get("2-3")),
+                new XYChart.Data<>("3-4", intensityData.get("3-4")),
+                new XYChart.Data<>("4-5", intensityData.get("4-5")),
+                new XYChart.Data<>("5-6", intensityData.get("5-6")),
+                new XYChart.Data<>("6-7", intensityData.get("6-7")),
+                new XYChart.Data<>("8+", intensityData.get("8+"))
+        );
+
+        XYChart.Series<String, Number> series = new XYChart.Series<String, Number>(test);
+        barChart.getData().add(series);
+    }
+
     private void initializeLineChart() {
         xAxisLineChart = (CategoryAxis) lineChart.getXAxis();
         yAxisLineChart = (NumberAxis) lineChart.getYAxis();
@@ -125,6 +158,15 @@ public class StatsController implements Initializable {
         xAxisLineChart.setLabel("Dates (Année)");
         yAxisLineChart.setLabel("Intensité (Richter)");
         lineChart.setTitle("Intensité moyenne par Année");
+    }
+
+    public void initializeBarChart() {
+        xAxisBarChart = (CategoryAxis) barChart.getXAxis();
+        yAxisBarChart = (NumberAxis) barChart.getYAxis();
+
+        xAxisBarChart.setLabel("Intensité de seisme");
+        yAxisBarChart.setLabel("Nombres des seismes");
+        barChart.setTitle("Nombres de seisme par Intensité");
     }
 
     private void initializeTable() {
@@ -170,6 +212,7 @@ public class StatsController implements Initializable {
             this.department.setValue((String) searchData.get("department"));
 
             renderLineChart();
+            renderBarChart();
 
             System.out.println("\u001B[32mStatsController:\nSearch Data: Updated\nData: Filtered\u001B[0m");
             searchDataUpdated.set(false);
@@ -178,6 +221,7 @@ public class StatsController implements Initializable {
 
         initializeLineChart();
         initializeTable();
+        initializeBarChart();
 
         department.setItems(statsViewModel.getAllDepartments());
         department.getItems().add(0, "Département");

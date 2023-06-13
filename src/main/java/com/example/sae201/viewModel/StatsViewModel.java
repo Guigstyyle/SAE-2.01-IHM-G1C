@@ -11,6 +11,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
+import java.util.Map;
+
 
 public class StatsViewModel {
     private SceneManager sceneManager;
@@ -57,5 +59,9 @@ public class StatsViewModel {
 
     public ObservableList<YearIntensityData> getIntensityPerYearData() {
         return dataManager.getIntensityPerYearData();
+    }
+
+    public Map<String, Integer> getRichterIntensityData() {
+        return dataManager.getRichterIntensityData();
     }
 }

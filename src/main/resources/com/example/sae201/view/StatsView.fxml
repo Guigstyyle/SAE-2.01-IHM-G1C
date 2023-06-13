@@ -75,7 +75,7 @@
    <Separator prefWidth="200.0" />
    <BorderPane prefHeight="600.0" prefWidth="400.0">
       <right>
-         <BarChart prefHeight="290.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+         <BarChart fx:id="barChart" prefHeight="299.0" prefWidth="325.0" BorderPane.alignment="CENTER">
            <xAxis>
              <CategoryAxis side="BOTTOM" />
            </xAxis>
