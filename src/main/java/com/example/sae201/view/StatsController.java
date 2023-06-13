@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
-import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 public class StatsController implements Initializable {
@@ -35,8 +34,6 @@ public class StatsController implements Initializable {
     private TextField dateMax;
     @FXML
     private RangeSlider magnitudeSlider;
-    @FXML
-    private ComboBox<String> country;
     @FXML
     private ComboBox<String> department;
     @FXML
@@ -97,7 +94,7 @@ public class StatsController implements Initializable {
         searchData.put("dateMax", this.dateMax.getText());
         searchData.put("intensityMin", this.magnitudeSlider.getLowValue());
         searchData.put("intensityMax", this.magnitudeSlider.getHighValue());
-        searchData.put("country", this.country.getValue());
+        searchData.put("country", null);
         searchData.put("department", this.department.getValue());
 
         searchDataUpdated.set(true);
@@ -215,7 +212,6 @@ public class StatsController implements Initializable {
             this.dateMax.setText((String) searchData.get("dateMax"));
             this.magnitudeSlider.setLowValue((Double) searchData.get("intensityMin"));
             this.magnitudeSlider.setHighValue((Double) searchData.get("intensityMax"));
-            this.country.setValue((String) searchData.get("country"));
             this.department.setValue((String) searchData.get("department"));
 
             renderLineChart();

@@ -45,7 +45,6 @@
                     <VBox id="LocRechVBox" GridPane.RowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="3">
                      <Label text="Localisation" />
                      <HBox spacing="5">
-                         <ComboBox fx:id="country" promptText="Pays" />
                          <ComboBox fx:id="department" promptText="Département" />
                          <VBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                              <Button id="searchButton" onAction="#searchButtonHandler" text="RECHERCHER" GridPane.RowIndex="1" GridPane.columnIndex="1" />
