@@ -65,7 +65,7 @@
              </GridPane>
       </left>
       <right>
-         <TableView prefHeight="234.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+         <TableView fx:id="dataTable" prefHeight="234.0" prefWidth="500.0" BorderPane.alignment="CENTER">
             </TableView>
       </right>
       <center>

@@ -15,10 +15,8 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.RangeSlider;
 
@@ -119,6 +117,38 @@ public class StatsController implements Initializable {
         lineChart.setTitle("Intensité moyenne par Année");
     }
 
+    private void initializeTable() {
+        TableColumn<Data, String> idColumn = new TableColumn<>("id");
+        TableColumn<Data, String> dateColumn = new TableColumn<>("Date (AAAA/MM/JJ)");
+        TableColumn<Data, String> timeColumn = new TableColumn<>("Heure");
+        TableColumn<Data, String> nameColumn = new TableColumn<>("Nom");
+        TableColumn<Data, String> regionColumn = new TableColumn<>("Région épicentrale");
+        TableColumn<Data, String> shockColumn = new TableColumn<>("Choc");
+        TableColumn<Data, String> intensityColumn = new TableColumn<>("Intensité épicentrale");
+        TableColumn<Data, Double> xRGF93Column = new TableColumn<>("xRGF93");
+        TableColumn<Data, Double> yRGF93Column = new TableColumn<>("yRGF93");
+        TableColumn<Data, Double> intensityValueColumn = new TableColumn<>("Intensité");
+        TableColumn<Data, String> intensityQualityColumn = new TableColumn<>("Qualité de l'intensité");
+
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        regionColumn.setCellValueFactory(new PropertyValueFactory<>("region"));
+        shockColumn.setCellValueFactory(new PropertyValueFactory<>("shock"));
+        intensityColumn.setCellValueFactory(new PropertyValueFactory<>("intensity"));
+        xRGF93Column.setCellValueFactory(new PropertyValueFactory<>("xRGF93"));
+        yRGF93Column.setCellValueFactory(new PropertyValueFactory<>("yRGF93"));
+        intensityValueColumn.setCellValueFactory(new PropertyValueFactory<>("intensity"));
+        intensityQualityColumn.setCellValueFactory(new PropertyValueFactory<>("intensityQuality"));
+
+        dataTable.getColumns().addAll(idColumn, dateColumn, timeColumn, nameColumn, regionColumn,
+                shockColumn, intensityColumn, xRGF93Column, yRGF93Column,
+                intensityValueColumn, intensityQualityColumn);
+
+        dataTable.setItems(dataList);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         searchAndFilterBinding.addListener((observable, oldValue, newValue) -> {
@@ -137,6 +167,7 @@ public class StatsController implements Initializable {
         });
 
         initializeLineChart();
+        initializeTable();
 
         department.setItems(statsViewModel.getAllDepartments());
         department.getItems().add(0, "Département");
