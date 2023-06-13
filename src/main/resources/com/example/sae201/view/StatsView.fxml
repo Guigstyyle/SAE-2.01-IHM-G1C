@@ -1,12 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox id="root" stylesheets="@../css/statsView.css" alignment="CENTER" prefHeight="600" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.sae201.view.StatsController">
-    <HBox id="buttonHBox" spacing="50" alignment="CENTER">
-        <Button fx:id="StatsView" text="STATS" onAction="#navButtonsHandler" />
-        <Button fx:id="MapView" text="CARTE" onAction="#navButtonsHandler" />
-        <Button fx:id="ImportView" text="IMPORT" onAction="#navButtonsHandler" />
+<?import org.controlsfx.control.RangeSlider?>
+<VBox id="root" alignment="CENTER" prefHeight="600" prefWidth="900" stylesheets="@../css/statsView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sae201.view.StatsController">
+    <HBox alignment="CENTER" spacing="10">
+        <BorderPane id="leftBorderPane" prefHeight="600" prefWidth="400">
+            <top>
+                <HBox id="buttonHBox" alignment="CENTER" spacing="50">
+                    <Button fx:id="StatsView" onAction="#navButtonsHandler" text="STATS" />
+                    <Button fx:id="MapView" onAction="#navButtonsHandler" text="CARTE" />
+                    <Button fx:id="ImportView" onAction="#navButtonsHandler" text="IMPORT" />
+                </HBox>
+            </top>
+            <center>
+                <GridPane id="buttonGridPane" alignment="CENTER" hgap="30" vgap="30">
+                    <VBox GridPane.RowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="3">
+                        <Label text="Date" />
+                        <HBox spacing="5">
+                            <TextField fx:id="dateMin" promptText="De" />
+                            <TextField fx:id="dateMax" promptText="A" />
+                        </HBox>
+                    </VBox>
+                    <VBox spacing="10" GridPane.RowIndex="1" GridPane.columnIndex="0" GridPane.columnSpan="3">
+                        <Label text="Magnitude" />
+                        <RangeSlider fx:id="magnitudeSlider" showTickLabels="true" showTickMarks="true" id="magnitudeSlider" min="0" max="12"/>
+                    </VBox>
+
+                    <VBox id="LocRechVBox" GridPane.RowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="3">
+                        <Label text="Localisation" />
+                        <HBox spacing="5">
+                            <ComboBox fx:id="country" promptText="Pays" />
+                            <ComboBox fx:id="department" promptText="Département" />
+                            <VBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                                <Button id="searchButton" text="RECHERCHER" GridPane.RowIndex="1" GridPane.columnIndex="1" onAction="#searchButtonHandler"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+                </GridPane>
+            </center>
+         <bottom>
+            <LineChart prefHeight="345.0" prefWidth="380.0" BorderPane.alignment="CENTER">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+         </bottom>
+        </BorderPane>
+        <Separator orientation="VERTICAL" />
+      <BorderPane prefHeight="600.0" prefWidth="450.0">
+         <center>
+            <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            </TableView>
+         </center>
+         <bottom>
+            <BarChart prefHeight="300.0" prefWidth="450.0" BorderPane.alignment="CENTER">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+         </bottom>
+      </BorderPane>
     </HBox>
 </VBox>

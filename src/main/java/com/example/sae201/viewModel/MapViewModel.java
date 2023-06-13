@@ -4,8 +4,11 @@ import com.example.sae201.Main;
 import com.example.sae201.model.Data;
 import com.example.sae201.model.DataManager;
 import com.example.sae201.view.SceneManager;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 import java.util.HashMap;
 
@@ -22,12 +25,16 @@ public class MapViewModel {
         sceneManager.showScene(btnID);
     }
 
-    public ObservableList<Data> getFilteredData(HashMap<String, Object> searchData) {
+    public ObservableList<Data> getFilteredData(ObservableMap<String, Object> searchData) {
         return dataManager.filterData(searchData);
     }
 
-    public ObservableList<String> getAllRegions() {
-        return dataManager.getAllRegions();
+    public ObservableList<Data> getOldFilteredData() {
+        return dataManager.getFilteredData();
+    }
+
+    public ObservableMap<String, Object> getSearchData() {
+        return dataManager.getSearchData();
     }
 
     public  ObservableList<String> getAllDepartments() {
@@ -59,5 +66,17 @@ public class MapViewModel {
         }
 
         return results;
+    }
+
+    public BooleanProperty getSearchDataUpdatedProperty() {
+        return dataManager.searchDataUpdatedProperty();
+    }
+
+    public BooleanProperty getDataFilteredProperty() {
+        return dataManager.dataFilteredProperty();
+    }
+
+    public BooleanBinding getSearchAndFilerBinding() {
+        return dataManager.searchAndFilterBindingProperty();
     }
 }

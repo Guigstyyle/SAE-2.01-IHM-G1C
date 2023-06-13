@@ -1,8 +1,12 @@
 package com.example.sae201.model;
 
 import com.example.sae201.Main;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,13 +18,23 @@ public class DataManager {
     private final String CSV_FILE_NAME = "SisFrance_seismes_20230604151458.csv";
     private final String CSV_DEP_FILE_NAME = "FrenchDepartments.csv";
     private final String GEOJSON_DEP_FILE_NAME = "DepartmentData.geojson";
-    private ObservableList<Data> dataList;
-    private HashMap<String, String> frenchDepartments;
     private MapLocationChecker mapLocationChecker;
+    private HashMap<String, String> frenchDepartments;
+    private ObservableList<Data> dataList;
+    private ObservableList<Data> filteredData;
+    private ObservableMap<String, Object> searchData;
+    private BooleanProperty searchDataUpdated;
+    private BooleanProperty dataFiltered;
+    private BooleanBinding searchAndFilterBinding;
 
     public DataManager() {
+        searchDataUpdated = new SimpleBooleanProperty(false);
+        dataFiltered = new SimpleBooleanProperty(false);
+        searchAndFilterBinding = searchDataUpdated.and(dataFiltered);
         dataList = FXCollections.observableArrayList();
         frenchDepartments = new HashMap<>();
+        filteredData = FXCollections.observableArrayList();
+        searchData = FXCollections.observableHashMap();
         try {
             mapLocationChecker = new MapLocationChecker(GEOJSON_DEP_FILE_NAME);
         } catch (IOException e) {
@@ -115,8 +129,9 @@ public class DataManager {
         return frenchDepartments;
     }
 
-    public ObservableList<Data> filterData(Map<String, Object> searchData) {
-        ObservableList<Data> filteredData = FXCollections.observableArrayList();
+    public ObservableList<Data> filterData(ObservableMap<String, Object> searchData) {
+        filteredData.clear();
+        this.searchData = searchData;
 
         for (Data data : dataList) {
             System.out.println("\n" + data.toString());
@@ -124,11 +139,11 @@ public class DataManager {
 
             String dateMin = (String) searchData.get("dateMin");
             String dateMax = (String) searchData.get("dateMax");
-            if (!dateMin.isEmpty() && compareDates(data.getDate(), dateMin) < 0) {
+            if (dateMin != null && !dateMin.isEmpty() && compareDates(data.getDate(), dateMin) < 0) {
                 matchesCriteria = false;
                 System.out.println("Date Min: Not Passed!");
             }
-            if (!dateMax.isEmpty() && compareDates(data.getDate(), dateMax) > 0) {
+            if (dateMax != null && !dateMax.isEmpty() && compareDates(data.getDate(), dateMax) > 0) {
                 matchesCriteria = false;
                 System.out.println("Date Max: Not Passed!");
             }
@@ -163,7 +178,16 @@ public class DataManager {
                 System.out.println("\u001B[31m Data does not match: Not Ok! \u001B[0m");
             }
         }
+        dataFiltered.set(true);
         return filteredData;
+    }
+
+    public ObservableList<Data> getFilteredData() {
+        return filteredData;
+    }
+
+    public ObservableMap<String, Object> getSearchData() {
+        return searchData;
     }
 
     private int compareDates(String dataDate, String filterDate) {
@@ -182,4 +206,15 @@ public class DataManager {
         return regions;
     }
 
+    public BooleanProperty searchDataUpdatedProperty() {
+        return searchDataUpdated;
+    }
+
+    public BooleanProperty dataFilteredProperty() {
+        return dataFiltered;
+    }
+
+    public BooleanBinding searchAndFilterBindingProperty() {
+        return searchAndFilterBinding;
+    }
 }

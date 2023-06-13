@@ -7,8 +7,9 @@ import com.example.sae201.viewModel.MapViewModel;
 import com.gluonhq.maps.MapLayer;
 import com.gluonhq.maps.MapPoint;
 import com.gluonhq.maps.MapView;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -41,15 +42,23 @@ public class MapController implements Initializable {
 
     private MapViewModel mapViewModel;
     private ObservableList<Data> dataList;
+    private ObservableMap<String, Object> searchData;
     private ObservableList<MapLayer> mapLayers;
+    private BooleanProperty searchDataUpdated;
+    private BooleanProperty dataFiltered;
+    private BooleanBinding searchAndFilterBinding;
 
 
     public MapController() {
         SceneManager sceneManager = Main.getSceneManager();
         mapViewModel = new MapViewModel(sceneManager);
         map = new MapView();
-        dataList = FXCollections.observableArrayList();
+        dataList = mapViewModel.getOldFilteredData();
         mapLayers = FXCollections.observableArrayList();
+        searchData = mapViewModel.getSearchData();
+        searchDataUpdated = mapViewModel.getSearchDataUpdatedProperty();
+        dataFiltered = mapViewModel.getDataFilteredProperty();
+        searchAndFilterBinding = mapViewModel.getSearchAndFilerBinding();
     }
 
     @FXML
@@ -62,8 +71,6 @@ public class MapController implements Initializable {
 
     @FXML
     public void searchButtonHandler(ActionEvent event) {
-        HashMap<String, Object> searchData = new HashMap<>();
-
         searchData.put("dateMin", this.dateMin.getText());
         searchData.put("dateMax", this.dateMax.getText());
         searchData.put("intensityMin", this.magnitudeSlider.getLowValue());
@@ -71,10 +78,20 @@ public class MapController implements Initializable {
         searchData.put("country", this.country.getValue());
         searchData.put("department", this.department.getValue());
 
+        searchDataUpdated.set(true);
+
         dataList = mapViewModel.getFilteredData(searchData);
 
-        dataTable.setItems(dataList);
+        System.out.println("dateMin: " + searchData.get("dateMin"));
+        System.out.println("dateMax: " + searchData.get("dateMax"));
+        System.out.println("intensityMin: " + searchData.get("intensityMin"));
+        System.out.println("intensityMax: " + searchData.get("intensityMax"));
+        System.out.println("country: " + searchData.get("country"));
+        System.out.println("department: " + searchData.get("department"));
+    }
 
+    private void renderMap() {
+        System.out.println("- RenderMap: Started!");
         if (mapLayers.size() != 0) {
             for (MapLayer mapLayer : mapLayers) {
                 map.removeLayer(mapLayer);
@@ -103,13 +120,7 @@ public class MapController implements Initializable {
             map.setZoom(5.8);
             map.flyTo(0.1, new MapPoint(46.6, 1.88), 0.8);
         }
-
-        System.out.println("dateMin: " + searchData.get("dateMin"));
-        System.out.println("dateMax: " + searchData.get("dateMax"));
-        System.out.println("intensityMin: " + searchData.get("intensityMin"));
-        System.out.println("intensityMax: " + searchData.get("intensityMax"));
-        System.out.println("country: " + searchData.get("country"));
-        System.out.println("department: " + searchData.get("department"));
+        System.out.println("- RenderMap: Ended!");
     }
 
     private void initializeTable() {
@@ -140,6 +151,8 @@ public class MapController implements Initializable {
         dataTable.getColumns().addAll(idColumn, dateColumn, timeColumn, nameColumn, regionColumn,
                 shockColumn, intensityColumn, xRGF93Column, yRGF93Column,
                 intensityValueColumn, intensityQualityColumn);
+
+        dataTable.setItems(dataList);
     }
 
     private void initializeMap() {
@@ -149,6 +162,19 @@ public class MapController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        searchAndFilterBinding.addListener((observable, oldValue, newValue) -> {
+            this.dateMin.setText((String) searchData.get("dateMin"));
+            this.dateMax.setText((String) searchData.get("dateMax"));
+            this.magnitudeSlider.setLowValue((Double) searchData.get("intensityMin"));
+            this.magnitudeSlider.setHighValue((Double) searchData.get("intensityMax"));
+            this.country.setValue((String) searchData.get("country"));
+            this.department.setValue((String) searchData.get("department"));
+            renderMap();
+            System.out.println("\u001B[32mMapController:\nSearch Data: Updated\nData: Filtered\nMap Rendered\u001B[0m");
+            searchDataUpdated.set(false);
+            dataFiltered.set(false);
+        });
+
         initializeTable();
         initializeMap();
         department.setItems(mapViewModel.getAllDepartments());
