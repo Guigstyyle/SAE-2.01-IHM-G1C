@@ -26,6 +26,7 @@ public class DataManager {
     private BooleanProperty searchDataUpdated;
     private BooleanProperty dataFiltered;
     private BooleanBinding searchAndFilterBinding;
+    private ObservableList<YearIntensityData> intensityPerYearData;
 
     public DataManager() {
         searchDataUpdated = new SimpleBooleanProperty(false);
@@ -35,6 +36,7 @@ public class DataManager {
         frenchDepartments = new HashMap<>();
         filteredData = FXCollections.observableArrayList();
         searchData = FXCollections.observableHashMap();
+        intensityPerYearData = FXCollections.observableArrayList();
         try {
             mapLocationChecker = new MapLocationChecker(GEOJSON_DEP_FILE_NAME);
         } catch (IOException e) {
@@ -216,5 +218,32 @@ public class DataManager {
 
     public BooleanBinding searchAndFilterBindingProperty() {
         return searchAndFilterBinding;
+    }
+
+    public ObservableList<YearIntensityData> getIntensityPerYearData() {
+        intensityPerYearData.clear();
+        Map<String, YearIntensityData> yearDataMap = new HashMap<>();
+
+        for (Data data : filteredData) {
+            String year = null;
+            if (data.getDate() != null) {
+                year = data.getDate().substring(0, 4);
+            }
+
+            if (yearDataMap.containsKey(year)) {
+                YearIntensityData yearIntensityData = yearDataMap.get(year);
+                yearIntensityData.setCount(yearIntensityData.getCount() + 1);
+                yearIntensityData.setIntensitySum(yearIntensityData.getIntensitySum() + data.getIntensity());
+            } else {
+                YearIntensityData yearIntensityData = new YearIntensityData();
+                yearIntensityData.setYear(year);
+                yearIntensityData.setCount(1);
+                yearIntensityData.setIntensitySum(data.getIntensity());
+                yearDataMap.put(year, yearIntensityData);
+                intensityPerYearData.add(yearIntensityData);
+            }
+        }
+
+        return intensityPerYearData;
     }
 }

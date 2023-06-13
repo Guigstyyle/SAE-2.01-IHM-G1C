@@ -3,6 +3,7 @@ package com.example.sae201.viewModel;
 import com.example.sae201.Main;
 import com.example.sae201.model.Data;
 import com.example.sae201.model.DataManager;
+import com.example.sae201.model.YearIntensityData;
 import com.example.sae201.view.SceneManager;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
@@ -52,5 +53,9 @@ public class StatsViewModel {
 
     public BooleanBinding getSearchAndFilerBinding() {
         return dataManager.searchAndFilterBindingProperty();
+    }
+
+    public ObservableList<YearIntensityData> getIntensityPerYearData() {
+        return dataManager.getIntensityPerYearData();
     }
 }
