@@ -11,15 +11,35 @@ import com.example.sae201.Main;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * The MapLocationChecker class is responsible for checking if a given latitude and longitude
+ * is inside a specified department's boundaries.
+ */
 public class MapLocationChecker {
     private JSONObject departmentData;
 
+    /**
+     * Constructs a MapLocationChecker object with the specified JSON file path.
+     *
+     * @param filePath the path to the JSON file containing department data
+     * @throws IOException        if an I/O error occurs while reading the file
+     * @throws URISyntaxException if the file path is not a valid URI syntax
+     */
     public MapLocationChecker(String filePath) throws IOException, URISyntaxException {
         URL resourceUrl = Main.class.getResource(filePath);
         Path path = Paths.get(resourceUrl.toURI());
         String jsonData = new String(Files.readAllBytes(path));
         departmentData = new JSONObject(jsonData);
     }
+
+    /**
+     * Checks if the given latitude and longitude fall inside the boundaries of the specified department.
+     *
+     * @param latitude       the latitude coordinate to check
+     * @param longitude      the longitude coordinate to check
+     * @param departmentCode the code of the department to check against
+     * @return true if the coordinates are inside the department boundaries, false otherwise
+     */
     public boolean isInDepartment(double latitude, double longitude, String departmentCode) {
         JSONArray features = departmentData.getJSONArray("features");
         for (int i = 0; i < features.length(); i++) {

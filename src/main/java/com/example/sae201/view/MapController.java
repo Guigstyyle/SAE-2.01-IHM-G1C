@@ -66,6 +66,11 @@ public class MapController implements Initializable {
         searchAndFilterBinding = mapViewModel.getSearchAndFilerBinding();
     }
 
+    /**
+     * Event handler for navigation buttons.
+     *
+     * @param event The ActionEvent triggering the event.
+     */
     @FXML
     public void navButtonsHandler(ActionEvent event) {
         Button btnUsed = (Button) event.getSource();
@@ -74,6 +79,11 @@ public class MapController implements Initializable {
         mapViewModel.handleButton(btnID);
     }
 
+    /**
+     * Event handler for the import button.
+     *
+     * @param event The ActionEvent triggering the event.
+     */
     @FXML
     public void importButtonHandler(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -88,6 +98,11 @@ public class MapController implements Initializable {
         }
     }
 
+    /**
+     * Event handler for the search button.
+     *
+     * @param event The ActionEvent triggering the event.
+     */
     @FXML
     public void searchButtonHandler(ActionEvent event) {
         searchData.put("dateMin", this.dateMin.getText());
@@ -109,6 +124,9 @@ public class MapController implements Initializable {
         System.out.println("department: " + searchData.get("department"));
     }
 
+    /**
+     * Renders the map based on the data.
+     */
     private void renderMap() {
         System.out.println("- RenderMap: Started!");
         if (mapLayers.size() != 0) {
@@ -142,6 +160,9 @@ public class MapController implements Initializable {
         System.out.println("- RenderMap: Ended!");
     }
 
+    /**
+     * Initializes the table for displaying data.
+     */
     private void initializeTable() {
         TableColumn<Data, String> idColumn = new TableColumn<>("id");
         TableColumn<Data, String> dateColumn = new TableColumn<>("Date (AAAA/MM/JJ)");
@@ -174,6 +195,9 @@ public class MapController implements Initializable {
         dataTable.setItems(dataList);
     }
 
+    /**
+     * Initializes the map with default settings.
+     */
     private void initializeMap() {
         map.setCenter(46.6, 1.88);
         map.setZoom(5.8);

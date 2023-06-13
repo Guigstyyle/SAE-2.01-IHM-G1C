@@ -25,6 +25,9 @@ import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * The StatsController class handles the logic and user interactions for the statistics view in a JavaFX application.
+ */
 public class StatsController implements Initializable {
     @FXML
     private VBox root;
@@ -55,6 +58,9 @@ public class StatsController implements Initializable {
     private ObservableList<YearIntensityData> intensityPerYearData;
     private Map<String, Integer> intensityData;
 
+    /**
+     * Constructs a new StatsController object.
+     */
     public StatsController() {
         SceneManager sceneManager = Main.getSceneManager();
         statsViewModel = new StatsViewModel(sceneManager);
@@ -67,6 +73,11 @@ public class StatsController implements Initializable {
         intensityData = statsViewModel.getRichterIntensityData();
     }
 
+    /**
+     * Event handler for navigation buttons.
+     *
+     * @param event the action event
+     */
     @FXML
     public void navButtonsHandler(ActionEvent event) {
         Button btnUsed = (Button) event.getSource();
@@ -74,6 +85,12 @@ public class StatsController implements Initializable {
 
         statsViewModel.handleButton(btnID);
     }
+
+    /**
+     * Event handler for the import button.
+     *
+     * @param event the action event
+     */
     @FXML
     public void importButtonHandler(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -88,6 +105,11 @@ public class StatsController implements Initializable {
         }
     }
 
+    /**
+     * Event handler for the search button.
+     *
+     * @param event the action event
+     */
     @FXML
     public void searchButtonHandler(ActionEvent event) {
         searchData.put("dateMin", this.dateMin.getText());
@@ -118,6 +140,9 @@ public class StatsController implements Initializable {
         System.out.println("8+: " + intensityData.get("8+"));
     }
 
+    /**
+     * Renders the line chart with the intensity per year data.
+     */
     private void renderLineChart() {
         intensityPerYearData = statsViewModel.getIntensityPerYearData();
 
@@ -136,6 +161,9 @@ public class StatsController implements Initializable {
         lineChart.getData().add(series);
     }
 
+    /**
+     * Renders the bar chart with the intensity data.
+     */
     private void renderBarChart() {
         intensityData = statsViewModel.getRichterIntensityData();
 
@@ -155,15 +183,21 @@ public class StatsController implements Initializable {
         barChart.getData().add(series);
     }
 
+    /**
+     * Initializes the line chart.
+     */
     private void initializeLineChart() {
         xAxisLineChart = (CategoryAxis) lineChart.getXAxis();
         yAxisLineChart = (NumberAxis) lineChart.getYAxis();
 
         xAxisLineChart.setLabel("Dates (Année)");
-        yAxisLineChart.setLabel("Intensité (Richter)");
+        yAxisLineChart.setLabel("Intensité");
         lineChart.setTitle("Intensité moyenne par Année");
     }
 
+    /**
+     * Initializes the bar chart.
+     */
     public void initializeBarChart() {
         xAxisBarChart = (CategoryAxis) barChart.getXAxis();
         yAxisBarChart = (NumberAxis) barChart.getYAxis();
@@ -173,6 +207,9 @@ public class StatsController implements Initializable {
         barChart.setTitle("Nombres de seisme par Intensité");
     }
 
+    /**
+     * Initializes the table view.
+     */
     private void initializeTable() {
         TableColumn<Data, String> idColumn = new TableColumn<>("id");
         TableColumn<Data, String> dateColumn = new TableColumn<>("Date (AAAA/MM/JJ)");

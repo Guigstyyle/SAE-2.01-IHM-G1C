@@ -1,3 +1,8 @@
+/**
+ * The Main class is the entry point of the application and extends the JavaFX Application class.
+ * It initializes the scene manager and data manager, loads data, and starts the application.
+ */
+
 package com.example.sae201;
 
 import com.example.sae201.model.DataManager;
@@ -11,14 +16,31 @@ public class Main extends Application {
     private static SceneManager sceneManager;
     private static DataManager dataManager;
 
+    /**
+     * Retrieves the scene manager instance.
+     *
+     * @return the SceneManager instance
+     */
     public static SceneManager getSceneManager() {
         return sceneManager;
     }
 
+    /**
+     * Retrieves the data manager instance.
+     *
+     * @return the DataManager instance
+     */
     public static DataManager getDataManager() {
         return dataManager;
     }
 
+    /**
+     * Starts the JavaFX application by initializing the stage, scene manager, and data manager.
+     * It loads data, preloads scenes, and shows the initial scene.
+     *
+     * @param stage the primary stage for the JavaFX application
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     public void start(Stage stage) throws IOException {
         System.setProperty("javafx.platform", "desktop");
@@ -37,6 +59,11 @@ public class Main extends Application {
         sceneManager.showScene("MapView");
     }
 
+    /**
+     * The main method launches the JavaFX application.
+     *
+     * @param args the command-line arguments
+     */
     public static void main(String[] args) {
         launch();
     }

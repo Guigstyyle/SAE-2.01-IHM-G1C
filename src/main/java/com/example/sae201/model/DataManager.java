@@ -4,7 +4,6 @@ import com.example.sae201.Main;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -14,9 +13,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.*;
 
+/**
+ * The DataManager class handles the management of seismic data.
+ */
 public class DataManager {
     private final String CSV_FILE_NAME_DEFAULT = "SisFrance_seismes_20230604151458.csv";
     private URL csv_file_path_import;
@@ -33,6 +34,9 @@ public class DataManager {
     private ObservableList<YearIntensityData> intensityPerYearData;
     private Map<String, Integer> intensityData;
 
+    /**
+     * Constructs a DataManager object.
+     */
     public DataManager() {
         searchDataUpdated = new SimpleBooleanProperty(false);
         dataFiltered = new SimpleBooleanProperty(false);
@@ -52,6 +56,11 @@ public class DataManager {
         }
     }
 
+    /**
+     * Loads seismic data from a CSV file.
+     *
+     * @throws IOException if an I/O error occurs
+     */
     public void loadData() throws IOException {
         dataList.clear();
         URL csvFileUrl = Main.class.getResource(CSV_FILE_NAME_DEFAULT);
@@ -61,8 +70,6 @@ public class DataManager {
         if (csvFileUrl == null) {
             throw new IOException("File not found: " + CSV_FILE_NAME_DEFAULT);
         }
-
-        System.out.println("->>>>" + csvFileUrl);
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(csvFileUrl.openStream()))) {
             reader.readLine();
@@ -89,6 +96,11 @@ public class DataManager {
         }
     }
 
+    /**
+     * Loads French departments data from a CSV file.
+     *
+     * @throws IOException if an I/O error occurs
+     */
     public void loadDepData() throws IOException {
         URL csvFileUrl = Main.class.getResource(CSV_DEP_FILE_NAME);
         if (csvFileUrl == null) {
@@ -107,6 +119,12 @@ public class DataManager {
         }
     }
 
+    /**
+     * Parses a line of CSV data.
+     *
+     * @param line the line of CSV data
+     * @return an array of parsed fields
+     */
     private String[] parseLineCSV(String line) {
         List<String> fields = new ArrayList<>();
         StringBuilder fieldBuilder = new StringBuilder();
@@ -130,6 +148,12 @@ public class DataManager {
         return fields.toArray(new String[0]);
     }
 
+    /**
+     * Parses a double value from a string, or returns null if the string is empty.
+     *
+     * @param value the string value to parse
+     * @return the parsed double value, or null if the string is empty
+     */
     private Double parseDoubleOrNull(String value) {
         if (value != null && !value.isEmpty()) {
             return Double.parseDouble(value);
@@ -137,14 +161,30 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Retrieves the list of seismic data.
+     *
+     * @return the list of seismic data
+     */
     public ObservableList<Data> getDataList() {
         return dataList;
     }
 
+    /**
+     * Retrieves the French departments map.
+     *
+     * @return the French departments map
+     */
     public HashMap<String, String> getFrenchDepartments() {
         return frenchDepartments;
     }
 
+    /**
+     * Filters the seismic data based on the specified search criteria.
+     *
+     * @param searchData the search criteria
+     * @return the filtered seismic data
+     */
     public ObservableList<Data> filterData(ObservableMap<String, Object> searchData) {
         filteredData.clear();
         this.searchData = searchData;
@@ -198,19 +238,41 @@ public class DataManager {
         return filteredData;
     }
 
+    /**
+     * Retrieves the filtered seismic data.
+     *
+     * @return the filtered seismic data
+     */
     public ObservableList<Data> getFilteredData() {
         return filteredData;
     }
 
+    /**
+     * Retrieves the search criteria.
+     *
+     * @return the search criteria
+     */
     public ObservableMap<String, Object> getSearchData() {
         return searchData;
     }
 
+    /**
+     * Compares two dates. "AAAA/MM/JJ" or "AAAA/MM" or "AAAA"
+     *
+     * @param dataDate   the data date
+     * @param filterDate the filter date
+     * @return an integer representing the comparison result
+     */
     private int compareDates(String dataDate, String filterDate) {
         int minLength = Math.min(dataDate.length(), filterDate.length());
         return dataDate.substring(0, minLength).compareTo(filterDate.substring(0, minLength));
     }
 
+    /**
+     * Retrieves all regions in the seismic data.
+     *
+     * @return the list of regions
+     */
     public ObservableList<String> getAllRegions() {
         ObservableList<String> regions = FXCollections.observableArrayList();
         for (Data data : dataList) {
@@ -222,18 +284,38 @@ public class DataManager {
         return regions;
     }
 
+    /**
+     * Retrieves the property indicating whether the search data has been updated.
+     *
+     * @return the search data updated property
+     */
     public BooleanProperty searchDataUpdatedProperty() {
         return searchDataUpdated;
     }
 
+    /**
+     * Retrieves the property indicating whether the data has been filtered.
+     *
+     * @return the data filtered property
+     */
     public BooleanProperty dataFilteredProperty() {
         return dataFiltered;
     }
 
+    /**
+     * Retrieves the property representing the binding of search and filter.
+     *
+     * @return the search and filter binding property
+     */
     public BooleanBinding searchAndFilterBindingProperty() {
         return searchAndFilterBinding;
     }
 
+    /**
+     * Retrieves the list of intensity data per year.
+     *
+     * @return the list of intensity data per year
+     */
     public ObservableList<YearIntensityData> getIntensityPerYearData() {
         intensityPerYearData.clear();
         Map<String, YearIntensityData> yearDataMap = new HashMap<>();
@@ -261,6 +343,11 @@ public class DataManager {
         return intensityPerYearData;
     }
 
+    /**
+     * Retrieves the map of intensity data by range.
+     *
+     * @return the map of intensity data
+     */
     public Map<String, Integer> getRichterIntensityData() {
         intensityData.put("0-2", 0);
         intensityData.put("2-3", 0);
@@ -283,6 +370,12 @@ public class DataManager {
         return intensityData;
     }
 
+    /**
+     * Retrieves the intensity range for the given intensity value.
+     *
+     * @param intensity the intensity value
+     * @return the intensity range
+     */
     private String getIntensityRange(Double intensity) {
         if (intensity >= 0 && intensity < 2) {
             return "0-2";
@@ -303,6 +396,11 @@ public class DataManager {
         }
     }
 
+    /**
+     * Imports seismic data from a CSV file at the specified URL.
+     *
+     * @param url the URL of the CSV file
+     */
     public void importCSV(URL url) {
         this.csv_file_path_import = url;
     }
