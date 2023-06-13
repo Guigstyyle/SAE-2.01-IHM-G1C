@@ -18,9 +18,12 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import org.controlsfx.control.RangeSlider;
 
+import java.io.File;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 public class StatsController implements Initializable {
@@ -67,6 +70,13 @@ public class StatsController implements Initializable {
         String btnID = btnUsed.getId();
 
         statsViewModel.handleButton(btnID);
+    }
+    @FXML
+    public void importButtonHandler(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(root.getScene().getWindow());
+        Path path = Path.of(file.getPath());
+
     }
 
     @FXML

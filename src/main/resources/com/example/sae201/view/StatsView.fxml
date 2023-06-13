@@ -19,13 +19,13 @@
 
 <?import org.controlsfx.control.RangeSlider?>
 
-<VBox id="root" alignment="CENTER" prefHeight="620" prefWidth="900" stylesheets="@../css/statsView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sae201.view.StatsController">
+<VBox fx:id="root" id="root" alignment="CENTER" prefHeight="620" prefWidth="900" stylesheets="@../css/statsView.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sae201.view.StatsController">
      <BorderPane id="leftBorderPane" prefHeight="600" prefWidth="400.0">
          <top>
              <HBox id="buttonHBox" alignment="CENTER" spacing="50">
                  <Button fx:id="StatsView" onAction="#navButtonsHandler" text="STATS" />
                  <Button fx:id="MapView" onAction="#navButtonsHandler" text="CARTE" />
-                 <Button fx:id="ImportView" onAction="#navButtonsHandler" text="IMPORT" />
+                 <Button fx:id="ImportView" onAction="#importButtonHandler" text="IMPORT" />
              </HBox>
          </top>
       <left>

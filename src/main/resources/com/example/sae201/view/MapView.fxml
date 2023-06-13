@@ -5,14 +5,14 @@
 <?import com.gluonhq.maps.*?>
 
 <?import org.controlsfx.control.RangeSlider?>
-<VBox id="root" stylesheets="@../css/mapView.css" alignment="CENTER" prefHeight="620" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.sae201.view.MapController">
+<VBox fx:id="root" id="root" stylesheets="@../css/mapView.css" alignment="CENTER" prefHeight="620" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.example.sae201.view.MapController">
     <HBox spacing="10" alignment="CENTER">
         <BorderPane id="leftBorderPane" prefHeight="600" prefWidth="400">
             <top>
                 <HBox id="buttonHBox" spacing="50" alignment="CENTER">
                     <Button fx:id="StatsView" text="STATS" onAction="#navButtonsHandler" />
                     <Button fx:id="MapView" text="CARTE" onAction="#navButtonsHandler" />
-                    <Button fx:id="ImportView" text="IMPORT" onAction="#navButtonsHandler" />
+                    <Button fx:id="ImportView" text="IMPORT" onAction="#importButtonHandler" />
                 </HBox>
             </top>
             <center>
@@ -25,7 +25,7 @@
                         </HBox>
                     </VBox>
                     <VBox spacing="10" GridPane.columnIndex="0" GridPane.RowIndex="1" GridPane.columnSpan="3">
-                        <Label text="Magnitude"/>
+                        <Label text="Intensité sismique"/>
                         <RangeSlider fx:id="magnitudeSlider" showTickLabels="true" showTickMarks="true" id="magnitudeSlider" min="0" max="12"/>
                     </VBox>
 

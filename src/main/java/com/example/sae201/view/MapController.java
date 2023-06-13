@@ -16,9 +16,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.controlsfx.control.RangeSlider;
 
+import java.io.File;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -67,6 +71,13 @@ public class MapController implements Initializable {
         String btnID = btnUsed.getId();
 
         mapViewModel.handleButton(btnID);
+    }
+
+    @FXML
+    public void importButtonHandler(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(root.getScene().getWindow());
+        Path path = Path.of(file.getPath());
     }
 
     @FXML
