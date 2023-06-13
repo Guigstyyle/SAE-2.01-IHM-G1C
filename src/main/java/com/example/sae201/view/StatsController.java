@@ -20,6 +20,7 @@ import javafx.stage.FileChooser;
 import org.controlsfx.control.RangeSlider;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.nio.file.Path;
@@ -80,8 +81,14 @@ public class StatsController implements Initializable {
     public void importButtonHandler(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(root.getScene().getWindow());
-        Path path = Path.of(file.getPath());
-
+        try {
+            if (file != null) {
+                Main.getDataManager().importCSV(file.toURL());
+                Main.getDataManager().loadData();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML

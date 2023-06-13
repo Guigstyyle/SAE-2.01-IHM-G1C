@@ -2,6 +2,7 @@ package com.example.sae201.view;
 
 import com.example.sae201.Main;
 import com.example.sae201.model.Data;
+import com.example.sae201.model.DataManager;
 import com.example.sae201.model.MapCircleLayer;
 import com.example.sae201.viewModel.MapViewModel;
 import com.gluonhq.maps.MapLayer;
@@ -21,6 +22,8 @@ import javafx.stage.Stage;
 import org.controlsfx.control.RangeSlider;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -35,8 +38,6 @@ public class MapController implements Initializable {
     private TextField dateMax;
     @FXML
     private RangeSlider magnitudeSlider;
-    @FXML
-    private ComboBox<String> country;
     @FXML
     private ComboBox<String> department;
     @FXML
@@ -77,7 +78,14 @@ public class MapController implements Initializable {
     public void importButtonHandler(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(root.getScene().getWindow());
-        Path path = Path.of(file.getPath());
+        try {
+            if (file != null) {
+                Main.getDataManager().importCSV(file.toURL());
+                Main.getDataManager().loadData();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
@@ -86,7 +94,7 @@ public class MapController implements Initializable {
         searchData.put("dateMax", this.dateMax.getText());
         searchData.put("intensityMin", this.magnitudeSlider.getLowValue());
         searchData.put("intensityMax", this.magnitudeSlider.getHighValue());
-        searchData.put("country", this.country.getValue());
+        searchData.put("country", null);
         searchData.put("department", this.department.getValue());
 
         searchDataUpdated.set(true);
@@ -178,7 +186,6 @@ public class MapController implements Initializable {
             this.dateMax.setText((String) searchData.get("dateMax"));
             this.magnitudeSlider.setLowValue((Double) searchData.get("intensityMin"));
             this.magnitudeSlider.setHighValue((Double) searchData.get("intensityMax"));
-            this.country.setValue((String) searchData.get("country"));
             this.department.setValue((String) searchData.get("department"));
             renderMap();
             System.out.println("\u001B[32mMapController:\nSearch Data: Updated\nData: Filtered\nMap Rendered\u001B[0m");

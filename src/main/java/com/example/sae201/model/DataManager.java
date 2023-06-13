@@ -4,6 +4,7 @@ import com.example.sae201.Main;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -12,10 +13,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.*;
 
 public class DataManager {
-    private final String CSV_FILE_NAME = "SisFrance_seismes_20230604151458.csv";
+    private final String CSV_FILE_NAME_DEFAULT = "SisFrance_seismes_20230604151458.csv";
+    private URL csv_file_path_import;
     private final String CSV_DEP_FILE_NAME = "FrenchDepartments.csv";
     private final String GEOJSON_DEP_FILE_NAME = "DepartmentData.geojson";
     private MapLocationChecker mapLocationChecker;
@@ -47,10 +50,16 @@ public class DataManager {
     }
 
     public void loadData() throws IOException {
-        URL csvFileUrl = Main.class.getResource(CSV_FILE_NAME);
-        if (csvFileUrl == null) {
-            throw new IOException("File not found: " + CSV_FILE_NAME);
+        dataList.clear();
+        URL csvFileUrl = Main.class.getResource(CSV_FILE_NAME_DEFAULT);
+        if (csv_file_path_import != null) {
+            csvFileUrl = csv_file_path_import;
         }
+        if (csvFileUrl == null) {
+            throw new IOException("File not found: " + CSV_FILE_NAME_DEFAULT);
+        }
+
+        System.out.println("->>>>" + csvFileUrl);
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(csvFileUrl.openStream()))) {
             reader.readLine();
@@ -289,5 +298,9 @@ public class DataManager {
         } else {
             return "8+";
         }
+    }
+
+    public void importCSV(URL url) {
+        this.csv_file_path_import = url;
     }
 }
